@@ -1,9 +1,8 @@
 import * as Font from 'expo-font';
+import * as NavigationBar from 'expo-navigation-bar';
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Platform, StyleSheet, Text, View } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
-
-
 const BACKGROUND_COLOR = '#FAFDF3';
 
 interface WeatherData {
@@ -16,20 +15,11 @@ interface WeatherData {
 
 export default function WeatherApp() {
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
-  const [currentTime, setCurrentTime] = useState(new Date());
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [loaded, fontError] = Font.useFonts({
-  'Monoton': require('../assets/fonts/Monoton-Regular.ttf'),
-});
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, []);
+  const [fontLoaded, fontError] = Font.useFonts({
+    'Monoton': require('../assets/fonts/Monoton-Regular.ttf'),
+  });
 
   useEffect(() => {
     const fetchWeather = async () => {
@@ -49,7 +39,7 @@ export default function WeatherApp() {
 
         // const response = await axios.get(weatherUrl);
         // const data = response.data;
-        
+
         // setWeatherData({
         //   temperature: Math.round(data.main.temp),
         //   condition: data.weather[0].main,
@@ -57,8 +47,8 @@ export default function WeatherApp() {
         //   humidity: data.main.humidity,
         //   windSpeed: Math.round(data.wind.speed)
         // });
-          setWeatherData({
-          temperature:38,
+        setWeatherData({
+          temperature: 32,
           condition: "Cloudy",
           location: "LUCKNOW",
           humidity: 80,
@@ -71,17 +61,31 @@ export default function WeatherApp() {
         setLoading(false);
       }
     };
-
+    
     fetchWeather();
   }, []);
+   useEffect(() => {
+    if (Platform.OS === 'android') {
+      const setImmersive = async () => {
+        await NavigationBar.setBehaviorAsync('overlay-swipe');
+        await NavigationBar.setVisibilityAsync('hidden');
+      };
 
-  const formatDate = (date: Date) => {
-    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    const day = date.getDate();
-    const month = months[date.getMonth()];
-    return `${day} ${month}`;
-  };
+      // Initial call
+      setImmersive();
 
+      // Set up listener once
+      const subscription = NavigationBar.addVisibilityListener(({ visibility }) => {
+        if (visibility === 'visible') {
+          setImmersive();
+        }
+      });
+
+      return () => {
+        subscription.remove(); // ✅ cleanup listener on unmount
+      };
+    }
+  }, []);
   if (loading) {
     return (
       <View style={styles.container}>
@@ -103,42 +107,27 @@ export default function WeatherApp() {
     <View style={styles.container}>
       {weatherData && (
         <View style={styles.contentContainer}>
-          {/* Main temperature display - first thing on screen */}
           <View style={styles.tempContainer}>
             <Text style={styles.temperature}>
               {weatherData.temperature}°
             </Text>
           </View>
 
-          {/* Date */}
-          <View style={styles.dateContainer}>
-            <Text style={styles.dateText}>
-              {formatDate(currentTime)}
-            </Text>
-          </View>
-
-          {/* Separator line
-          <View style={styles.separator}></View> */}
 
           {/* City, Weather condition, Humidity, and Wind on same line with separators */}
           <View style={styles.infoRow}>
-            <Text style={styles.locationText}>
-              {weatherData.location}
-            </Text>
-
-            <View style={styles.verticalSeparator}></View>
 
             <View style={styles.infoItem}>
-              
+
               <Text style={styles.infoText}>
-                {weatherData.condition}
+                {weatherData.condition.toUpperCase()}
               </Text>
             </View>
 
             <View style={styles.verticalSeparator}></View>
 
             <View style={styles.infoItem}>
-              
+
               <Text style={styles.infoText}>
                 {weatherData.humidity}%
               </Text>
@@ -169,14 +158,13 @@ const styles = StyleSheet.create({
   contentContainer: {
     width: '100%',
     height: '100%',
-    borderWidth: 1,
-    borderColor: 'red',
     padding: wp('2%'),
     paddingLeft: wp('4%'),
     // padding: wp('1%'),
     position: 'relative',
     justifyContent: 'flex-start',
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',
+    gap: hp('5%'),
   },
   tempContainer: {
     height: hp('40%'),
@@ -188,6 +176,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     fontFamily: 'Monoton',
     color: '#000',
+    letterSpacing: wp('2%'),
   },
   dateContainer: {
     marginBottom: 48,
@@ -206,26 +195,27 @@ const styles = StyleSheet.create({
   infoRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 24,
+    height: hp('10%'),
+    gap: wp('5%'),
+    fontWeight: '600',
   },
-  locationText: {
-    fontSize: 28,
-    letterSpacing: 1,
-  },
+  // locationText removed
   verticalSeparator: {
-    width: 1,
+    width: 5,
     height: 48,
     backgroundColor: '#9ca3af',
   },
   infoItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 16,
+    justifyContent: 'center',
+    minWidth: wp('30%'),
   },
   infoText: {
-    fontSize: 24,
+    fontSize: hp('5%'),
     color: '#4b5563',
-    letterSpacing: 1,
+    letterSpacing: 10,
+    // textTransform: 'uppercase',
   },
   loadingText: {
     fontSize: 20,
