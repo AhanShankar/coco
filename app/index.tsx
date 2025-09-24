@@ -3,7 +3,14 @@ import * as NavigationBar from 'expo-navigation-bar';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, Platform, StyleSheet, Text, View } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import Cloud from "../assets/svg/Cloud";
+import Humidity from "../assets/svg/Humidity";
+import Wind from "../assets/svg/Wind";
+
+
 const BACKGROUND_COLOR = '#FAFDF3';
+const ICON_HEIGHT = hp('5%');
+const ICON_WIDTH = hp('5%');
 
 interface WeatherData {
   temperature: number;
@@ -113,30 +120,25 @@ export default function WeatherApp() {
             </Text>
           </View>
 
-
-          {/* City, Weather condition, Humidity, and Wind on same line with separators */}
           <View style={styles.infoRow}>
 
             <View style={styles.infoItem}>
-
+              <Cloud height={ICON_HEIGHT} width={ICON_WIDTH} />
               <Text style={styles.infoText}>
                 {weatherData.condition.toUpperCase()}
               </Text>
             </View>
 
-            <View style={styles.verticalSeparator}></View>
-
             <View style={styles.infoItem}>
-
+              <Humidity height={ICON_HEIGHT} width={ICON_WIDTH} />
               <Text style={styles.infoText}>
                 {weatherData.humidity}%
               </Text>
             </View>
 
-            <View style={styles.verticalSeparator}></View>
 
             <View style={styles.infoItem}>
-
+              <Wind height={ICON_HEIGHT} width={ICON_WIDTH} />
               <Text style={styles.infoText}>
                 {weatherData.windSpeed} MPH
               </Text>
@@ -160,19 +162,15 @@ const styles = StyleSheet.create({
     height: '100%',
     padding: wp('2%'),
     paddingLeft: wp('4%'),
-    // padding: wp('1%'),
-    position: 'relative',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
     gap: hp('5%'),
   },
   tempContainer: {
-    height: hp('40%'),
+    height: hp('45%'),
     // borderWidth: 1,
     borderColor: 'black',
   },
   temperature: {
-    fontSize: hp('33%'),
+    fontSize: hp('35%'),
     fontWeight: '500',
     fontFamily: 'Monoton',
     color: '#000',
@@ -195,11 +193,12 @@ const styles = StyleSheet.create({
   infoRow: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
     height: hp('10%'),
-    gap: wp('5%'),
-    fontWeight: '600',
+    minWidth: '100%',
+    // borderWidth: 1,
+    paddingHorizontal: wp('2%'),
   },
-  // locationText removed
   verticalSeparator: {
     width: 5,
     height: 48,
@@ -207,12 +206,14 @@ const styles = StyleSheet.create({
   },
   infoItem: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     justifyContent: 'center',
-    minWidth: wp('30%'),
+    minWidth: wp('40%'),
+    gap: wp('2%'),
+    // borderWidth: 1,
   },
   infoText: {
-    fontSize: hp('5%'),
+    fontSize: hp('4%'),
     color: '#4b5563',
     letterSpacing: 10,
     fontWeight: '600',
