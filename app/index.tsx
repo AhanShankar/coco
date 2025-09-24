@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
     fontSize: hp('5%'),
     color: '#4b5563',
     letterSpacing: 10,
-    // textTransform: 'uppercase',
+    fontWeight: '600',
   },
   loadingText: {
     fontSize: 20,
