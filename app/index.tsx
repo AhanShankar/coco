@@ -1,5 +1,8 @@
+import * as Font from 'expo-font';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
+
 
 const BACKGROUND_COLOR = '#FAFDF3';
 
@@ -16,6 +19,9 @@ export default function WeatherApp() {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [loaded, fontError] = Font.useFonts({
+  'Monoton': require('../assets/fonts/Monoton-Regular.ttf'),
+});
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -52,7 +58,7 @@ export default function WeatherApp() {
         //   windSpeed: Math.round(data.wind.speed)
         // });
           setWeatherData({
-          temperature:40,
+          temperature:38,
           condition: "Cloudy",
           location: "LUCKNOW",
           humidity: 80,
@@ -111,8 +117,8 @@ export default function WeatherApp() {
             </Text>
           </View>
 
-          {/* Separator line */}
-          <View style={styles.separator}></View>
+          {/* Separator line
+          <View style={styles.separator}></View> */}
 
           {/* City, Weather condition, Humidity, and Wind on same line with separators */}
           <View style={styles.infoRow}>
@@ -163,20 +169,24 @@ const styles = StyleSheet.create({
   contentContainer: {
     width: '100%',
     height: '100%',
-    padding: 48,
+    borderWidth: 1,
+    borderColor: 'red',
+    padding: wp('2%'),
+    paddingLeft: wp('4%'),
+    // padding: wp('1%'),
     position: 'relative',
     justifyContent: 'flex-start',
     alignItems: 'flex-start'
   },
   tempContainer: {
-    marginBottom: 64,
+    height: hp('40%'),
+    // borderWidth: 1,
+    borderColor: 'black',
   },
   temperature: {
-    fontSize: 240,
-    lineHeight: 250,
-    fontWeight: '200',
-    fontFamily: 'sans-serif',
-    letterSpacing: -0.5,
+    fontSize: hp('33%'),
+    fontWeight: '500',
+    fontFamily: 'Monoton',
     color: '#000',
   },
   dateContainer: {
