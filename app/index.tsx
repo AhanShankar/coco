@@ -1,4 +1,5 @@
 import * as Font from 'expo-font';
+import * as Location from 'expo-location';
 import * as NavigationBar from 'expo-navigation-bar';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, Platform, StyleSheet, Text, View } from 'react-native';
@@ -6,19 +7,14 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-nat
 import Cloud from "../assets/svg/Cloud";
 import Humidity from "../assets/svg/Humidity";
 import Wind from "../assets/svg/Wind";
+import getWeatherData, { CurrentParam, DailyParam, WeatherData } from './weather';
 
 
 const BACKGROUND_COLOR = '#FAFDF3';
 const ICON_HEIGHT = hp('5%');
 const ICON_WIDTH = hp('5%');
 
-interface WeatherData {
-  temperature: number;
-  condition: string;
-  location: string;
-  humidity: number;
-  windSpeed: number;
-}
+
 
 export default function WeatherApp() {
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
@@ -29,38 +25,39 @@ export default function WeatherApp() {
   });
 
   useEffect(() => {
+    let intervalId: NodeJS.Timeout | number;
     const fetchWeather = async () => {
       try {
-        // setLoading(true);
-        // let { status } = await Location.requestForegroundPermissionsAsync();
-        // if (status !== 'granted') {
-        //   setError('Permission to access location was denied');
-        //   setLoading(false);
-        //   return;
-        // }
+        setLoading(true);
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+          setError('Permission to access location was denied');
+          setLoading(false);
+          return;
+        }
 
-        // let location = await Location.getCurrentPositionAsync({});
-        // const { latitude, longitude } = location.coords;
-        // const apiKey = WEATHER_API_KEY;
-        // const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=imperial`;
+        let location = await Location.getCurrentPositionAsync({});
+        const { latitude, longitude } = location.coords;
 
-        // const response = await axios.get(weatherUrl);
-        // const data = response.data;
-
-        // setWeatherData({
-        //   temperature: Math.round(data.main.temp),
-        //   condition: data.weather[0].main,
-        //   location: data.name.toUpperCase(),
-        //   humidity: data.main.humidity,
-        //   windSpeed: Math.round(data.wind.speed)
-        // });
-        setWeatherData({
-          temperature: 32,
-          condition: "Cloudy",
-          location: "LUCKNOW",
-          humidity: 80,
-          windSpeed: 10
-        });
+        try {
+          const weather = await getWeatherData({
+            latitude,
+            longitude,
+            current: [
+              CurrentParam.Temperature2m,
+              CurrentParam.RelativeHumidity2m,
+              CurrentParam.WindSpeed10m,
+              CurrentParam.WeatherCode
+            ],
+            daily: [
+              DailyParam.PrecipitationProbabilityMax
+            ]
+          });
+          setWeatherData(weather);
+        } catch (err) {
+          setError("Could not fetch weather data. Please check your network and API key.");
+          console.error(err);
+        }
       } catch (err) {
         setError("Could not fetch weather data. Please check your network and API key.");
         console.error(err);
@@ -68,8 +65,12 @@ export default function WeatherApp() {
         setLoading(false);
       }
     };
-    
+
     fetchWeather();
+    intervalId = setInterval(fetchWeather, 5 * 60 * 1000); // 5 minutes
+    return () => {
+      if (intervalId) clearInterval(intervalId);
+    };
   }, []);
    useEffect(() => {
     if (Platform.OS === 'android') {
@@ -140,7 +141,7 @@ export default function WeatherApp() {
             <View style={styles.infoItem}>
               <Wind height={ICON_HEIGHT} width={ICON_WIDTH} />
               <Text style={styles.infoText}>
-                {weatherData.windSpeed} MPH
+                {weatherData.windSpeed} KMPH
               </Text>
             </View>
           </View>
