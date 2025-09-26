@@ -3,11 +3,10 @@ import * as NavigationBar from 'expo-navigation-bar';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, Platform, StyleSheet, Text, View } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import Cloud from "../assets/icons/Cloud";
 import Humidity from "../assets/icons/Humidity";
 import Wind from "../assets/icons/Wind";
 import getLocation from './location';
-import getWeatherData, { CurrentParam, DailyParam, WeatherData } from './weather';
+import getWeatherData, { CurrentParam, DailyParam, getWeatherIcon, WeatherData } from './weather';
 
 const BACKGROUND_COLOR = '#FAFDF3';
 const ICON_HEIGHT = hp('5%');
@@ -109,7 +108,7 @@ export default function WeatherApp() {
           <View style={styles.infoRow}>
 
             <View style={styles.infoItem}>
-              <Cloud height={ICON_HEIGHT} width={ICON_WIDTH} />
+              {getWeatherIcon(weatherData.condition, ICON_HEIGHT, ICON_WIDTH)}
               <Text style={styles.infoText}>
                 {weatherData.condition.toUpperCase()}
               </Text>
