@@ -64,8 +64,7 @@ export default async function getWeatherData(options: WeatherOptions): Promise<W
     };
 }
 
-export function getWeatherIcon(code: number, height: number, width: number): React.JSX.Element {
-    const condition = weatherCodeMap[String(code) as keyof typeof weatherCodeMap] || 'Unknown';
+export function getWeatherIcon(condition: string, height: number, width: number): React.JSX.Element {
     if (condition.includes("Cloud"))
         return <Cloud height={height} width={width} />;
     if (condition.includes("Rain"))
