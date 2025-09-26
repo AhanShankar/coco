@@ -1,12 +1,15 @@
 import * as Location from 'expo-location';
+
 const LOCATION_TIMEOUT = 5 * 1000; // 5 seconds
 ***REMOVED***
+
 class LocationTimeoutError extends Error {
     constructor(message: string) {
         super(message);
         this.name = "LocationTimeoutError";
     }
 }
+
 export default async function getLocation(): Promise<Location.LocationObject> {
     try {
         await getLocationPermission();
@@ -25,6 +28,7 @@ export default async function getLocation(): Promise<Location.LocationObject> {
         throw err;
     }
 }
+
 const getLocationPermission = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
     console.log("Location permission status:", status);
@@ -33,6 +37,7 @@ const getLocationPermission = async () => {
         throw new Error('Permission to access location was denied');
     }
 }
+
 const getCurrentPositionWithTimeout = async (timeout: number): Promise<Location.LocationObject> => {
     let location = await Location.getLastKnownPositionAsync()
     console.log("Last known location:", location);

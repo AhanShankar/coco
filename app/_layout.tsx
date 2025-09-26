@@ -1,10 +1,8 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import 'react-native-reanimated';
-
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { Stack } from 'expo-router';
 import * as ScreenOrientation from 'expo-screen-orientation';
-
+import 'react-native-reanimated';
 
 async function changeScreenOrientation(orientation: ScreenOrientation.OrientationLock) {
   await ScreenOrientation.lockAsync(orientation);

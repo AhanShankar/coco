@@ -1,4 +1,8 @@
 import weatherCodeMap from "./weather-code-map.json" with { type: "json" };
+
+const BASE_URL = 'https://api.open-meteo.com/';
+const API_ENDPOINT = 'v1/forecast';
+
 export interface WeatherData {
     temperature: number;
     condition: string;
@@ -25,9 +29,6 @@ export interface WeatherOptions {
     daily?: DailyParam[];
     timezone?: string;
 }
-
-const BASE_URL = 'https://api.open-meteo.com/';
-const API_ENDPOINT = 'v1/forecast';
 
 export default async function getWeatherData(options: WeatherOptions): Promise<WeatherData> {
     const {

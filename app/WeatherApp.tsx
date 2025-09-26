@@ -13,8 +13,6 @@ const BACKGROUND_COLOR = '#FAFDF3';
 const ICON_HEIGHT = hp('5%');
 const ICON_WIDTH = hp('5%');
 
-
-
 export default function WeatherApp() {
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
   const [loading, setLoading] = useState(true);
