@@ -6,7 +6,7 @@ export default function CameraFeed() {
     <View style={{ aspectRatio: 16 / 9 }}>
       <LibVlcPlayerView
         style={{ height: "100%" }}
-        source={process.env.STREAM_URI || ""}
+        source={process.env.EXPO_PUBLIC_STREAM_URI || ""}
       />
     </View>
   );
