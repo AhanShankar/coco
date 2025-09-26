@@ -1,3 +1,8 @@
+import Moon from '@/assets/icons/Moon';
+import Cloud from "../assets/icons/Cloud";
+import Rain from "../assets/icons/Rain";
+import Sun from "../assets/icons/Sun";
+import { getDayOrNight } from './helper';
 import weatherCodeMap from "./weather-code-map.json" with { type: "json" };
 
 const BASE_URL = 'https://api.open-meteo.com/';
@@ -57,4 +62,20 @@ export default async function getWeatherData(options: WeatherOptions): Promise<W
         windSpeed: data.current.wind_speed_10m,
         precipitationProbability: data.daily.precipitation_probability_max?.[0] ?? 0
     };
+}
+
+export function getWeatherIcon(code: number, height: number, width: number): React.JSX.Element {
+    const condition = weatherCodeMap[String(code) as keyof typeof weatherCodeMap] || 'Unknown';
+    if (condition.includes("Cloud"))
+        return <Cloud height={height} width={width} />;
+    if (condition.includes("Rain"))
+        return <Rain height={height} width={width} />;
+    if (condition.includes("Clear"))
+    {
+        const time = getDayOrNight()
+        if (time === "day")
+            return <Sun height={height} width={width} />;
+        return <Moon height={height} width={width} />;
+    }
+    return <></>;
 }
