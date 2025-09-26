@@ -1,7 +1,6 @@
 import * as Font from 'expo-font';
-import * as NavigationBar from 'expo-navigation-bar';
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, Platform, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import Humidity from "../assets/icons/Humidity";
 import Wind from "../assets/icons/Wind";
@@ -9,8 +8,8 @@ import getLocation from './location';
 import getWeatherData, { CurrentParam, DailyParam, getWeatherIcon, WeatherData } from './weather';
 
 const BACKGROUND_COLOR = '#FAFDF3';
-const ICON_HEIGHT = hp('5%');
-const ICON_WIDTH = hp('5%');
+const ICON_HEIGHT = hp('6%');
+const ICON_WIDTH = hp('6%');
 
 export default function WeatherApp() {
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
@@ -145,29 +144,22 @@ const styles = StyleSheet.create({
   contentContainer: {
     width: '100%',
     height: '100%',
-    padding: wp('2%'),
-    paddingLeft: wp('4%'),
-    gap: hp('5%'),
+    padding: '2%',
+    paddingLeft: '4%',
+    gap: '5%',
+    // borderWidth: 1,
   },
   tempContainer: {
-    height: hp('45%'),
+    height: '70%',
     // borderWidth: 1,
     borderColor: 'black',
   },
   temperature: {
-    fontSize: hp('35%'),
+    fontSize: hp('50%'),
     fontWeight: '500',
     fontFamily: 'Monoton',
     color: '#000',
     letterSpacing: wp('2%'),
-  },
-  dateContainer: {
-    marginBottom: 48,
-  },
-  dateText: {
-    fontSize: 28,
-    color: '#4b5563',
-    letterSpacing: 2,
   },
   separator: {
     width: '100%',
@@ -179,10 +171,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    height: hp('10%'),
+    height: '25%',
     minWidth: '100%',
     // borderWidth: 1,
-    paddingHorizontal: wp('2%'),
   },
   verticalSeparator: {
     width: 5,
@@ -191,14 +182,15 @@ const styles = StyleSheet.create({
   },
   infoItem: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     justifyContent: 'center',
-    minWidth: wp('40%'),
+    minWidth: '30%',
     gap: wp('2%'),
     // borderWidth: 1,
   },
+
   infoText: {
-    fontSize: hp('4%'),
+    fontSize: hp('6%'),
     color: '#4b5563',
     letterSpacing: 10,
     fontWeight: '600',
