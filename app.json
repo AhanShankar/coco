@@ -39,13 +39,28 @@
           }
         }
       ],
-       [
+      [
         "expo-screen-orientation",
         {
           "initialOrientation": "LANDSCAPE"
         }
       ],
-      "expo-navigation-bar"
+      "expo-navigation-bar",
+      [
+        "expo-libvlc-player",
+        {
+          "localNetworkPermission": "Allow $(PRODUCT_NAME) to access your local network",
+          "supportsBackgroundPlayback": true
+        }
+      ],
+       [
+        "expo-build-properties",
+        {
+          "android": {
+            "minSdkVersion": 26
+          }
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,
