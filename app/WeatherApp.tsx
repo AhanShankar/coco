@@ -3,9 +3,9 @@ import * as NavigationBar from 'expo-navigation-bar';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, Platform, StyleSheet, Text, View } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import Cloud from "../assets/svg/Cloud";
-import Humidity from "../assets/svg/Humidity";
-import Wind from "../assets/svg/Wind";
+import Cloud from "../assets/icons/Cloud";
+import Humidity from "../assets/icons/Humidity";
+import Wind from "../assets/icons/Wind";
 import getLocation from './location';
 import getWeatherData, { CurrentParam, DailyParam, WeatherData } from './weather';
 
