@@ -52,14 +52,6 @@
           "localNetworkPermission": "Allow $(PRODUCT_NAME) to access your local network",
           "supportsBackgroundPlayback": true
         }
-      ],
-       [
-        "expo-build-properties",
-        {
-          "android": {
-            "minSdkVersion": 26
-          }
-        }
       ]
     ],
     "experiments": {
