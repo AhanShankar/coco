@@ -7,7 +7,7 @@ import weatherCodeMap from "./weather-code-map.json" with { type: "json" };
 
 const BASE_URL = 'https://api.open-meteo.com/';
 const API_ENDPOINT = 'v1/forecast';
-const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+const CACHE_TTL = 3 * 60 * 1000; // 3 minutes
 let weatherCache: WeatherCache | null = null;
 
 interface WeatherCache {
