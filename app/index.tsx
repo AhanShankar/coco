@@ -1,5 +1,4 @@
 import * as Font from 'expo-font';
-import * as Location from 'expo-location';
 import * as NavigationBar from 'expo-navigation-bar';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, Platform, StyleSheet, Text, View } from 'react-native';
@@ -7,8 +6,8 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-nat
 import Cloud from "../assets/svg/Cloud";
 import Humidity from "../assets/svg/Humidity";
 import Wind from "../assets/svg/Wind";
+import getLocation from './location';
 import getWeatherData, { CurrentParam, DailyParam, WeatherData } from './weather';
-
 
 const BACKGROUND_COLOR = '#FAFDF3';
 const ICON_HEIGHT = hp('5%');
@@ -29,16 +28,8 @@ export default function WeatherApp() {
     const fetchWeather = async () => {
       try {
         setLoading(true);
-        let { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== 'granted') {
-          setError('Permission to access location was denied');
-          setLoading(false);
-          return;
-        }
-
-        let location = await Location.getCurrentPositionAsync({});
+        const location = await getLocation();
         const { latitude, longitude } = location.coords;
-
         try {
           const weather = await getWeatherData({
             latitude,
@@ -59,7 +50,7 @@ export default function WeatherApp() {
           console.error(err);
         }
       } catch (err) {
-        setError("Could not fetch weather data. Please check your network and API key.");
+        setError("Could not fetch location.");
         console.error(err);
       } finally {
         setLoading(false);
@@ -78,11 +69,7 @@ export default function WeatherApp() {
         await NavigationBar.setBehaviorAsync('overlay-swipe');
         await NavigationBar.setVisibilityAsync('hidden');
       };
-
-      // Initial call
       setImmersive();
-
-      // Set up listener once
       const subscription = NavigationBar.addVisibilityListener(({ visibility }) => {
         if (visibility === 'visible') {
           setImmersive();
@@ -90,7 +77,7 @@ export default function WeatherApp() {
       });
 
       return () => {
-        subscription.remove(); // ✅ cleanup listener on unmount
+        subscription.remove();
       };
     }
   }, []);
