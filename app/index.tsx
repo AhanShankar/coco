@@ -63,7 +63,7 @@ export default function WeatherApp() {
       if (intervalId) clearInterval(intervalId);
     };
   }, []);
-   useEffect(() => {
+  useEffect(() => {
     if (Platform.OS === 'android') {
       const setImmersive = async () => {
         await NavigationBar.setBehaviorAsync('overlay-swipe');

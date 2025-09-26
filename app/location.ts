@@ -11,19 +11,18 @@ export default async function getLocation(): Promise<Location.LocationObject> {
     try {
         await getLocationPermission();
         let lastLocation = await Location.getLastKnownPositionAsync();
-        let currentLocation:Location.LocationObject | null = null;
+        let currentLocation: Location.LocationObject | null = null;
         if (!lastLocation)
             currentLocation = await getCurrentPositionWithTimeout(LOCATION_TIMEOUT);
         // @ts-ignore
         return lastLocation || currentLocation;
     }
     catch (err) {
-            if (err instanceof LocationTimeoutError)
-            {
-                console.log("Location request timed out, using fallback location:", FALLBACK_LOCATION);
-                return {coords: FALLBACK_LOCATION} as Location.LocationObject;
-            }
-            throw err;
+        if (err instanceof LocationTimeoutError) {
+            console.log("Location request timed out, using fallback location:", FALLBACK_LOCATION);
+            return { coords: FALLBACK_LOCATION } as Location.LocationObject;
+        }
+        throw err;
     }
 }
 const getLocationPermission = async () => {
