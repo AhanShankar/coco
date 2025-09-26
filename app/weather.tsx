@@ -71,7 +71,10 @@ export default async function getWeatherData(options: WeatherOptions): Promise<W
     const cachedWeather = getCachedWeather();
 
     if (cachedWeather)
+    {
+        console.log("Using cached weather data");
         return cachedWeather;
+    }
 
     const weather: WeatherData = {
         temperature: data.current.temperature_2m,
