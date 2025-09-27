@@ -1,15 +1,18 @@
 import * as Font from 'expo-font';
+import * as NavigationBar from 'expo-navigation-bar';
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Platform, StyleSheet, Text, View } from 'react-native';
 import { RFValue } from "react-native-responsive-fontsize";
 import Humidity from "../assets/icons/Humidity";
 import Wind from "../assets/icons/Wind";
+import { delay } from './helper';
 import getLocation from './location';
 import getWeatherData, { CurrentParam, DailyParam, getWeatherIcon, WeatherData } from './weather';
 
 const BACKGROUND_COLOR = '#FAFDF3';
 const ICON_HEIGHT = RFValue(25);
 const ICON_WIDTH = RFValue(25);
+const NAVBAR_VISIBLE_TIME = 1000; // 1 second
 
 export default function WeatherApp() {
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
@@ -59,24 +62,24 @@ export default function WeatherApp() {
       if (intervalId) clearInterval(intervalId);
     };
   }, []);
-  // useEffect(() => {
-  //   if (Platform.OS === 'android') {
-  //     const setImmersive = async () => {
-  //       await NavigationBar.setBehaviorAsync('overlay-swipe');
-  //       await NavigationBar.setVisibilityAsync('hidden');
-  //     };
-  //     setImmersive();
-  //     const subscription = NavigationBar.addVisibilityListener(({ visibility }) => {
-  //       if (visibility === 'visible') {
-  //         setImmersive();
-  //       }
-  //     });
+  useEffect(() => {
+    if (Platform.OS === 'android') {
+      const setImmersive = async () => {
+        await NavigationBar.setVisibilityAsync('hidden');
+      };
+      setImmersive();
+      const subscription = NavigationBar.addVisibilityListener(async ({ visibility }) => {
+        if (visibility === 'visible') {
+          await delay(NAVBAR_VISIBLE_TIME);
+          setImmersive();
+        }
+      });
 
-  //     return () => {
-  //       subscription.remove();
-  //     };
-  //   }
-  // }, []);
+      return () => {
+        subscription.remove();
+      };
+    }
+  }, []);
   if (loading) {
     return (
       <View style={styles.container}>
