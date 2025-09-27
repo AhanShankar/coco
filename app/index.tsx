@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <View style={{ flex: 1 }}>
       <Button
-        title={showAlt ? "Show Main Weather" : "Show Alternate Weather"}
+        title={showAlt ? "Weather" : "Camera"}
         onPress={() => setShowAlt((prev) => !prev)}
       />
       {showAlt ? <CameraFeed /> : <WeatherApp />}
