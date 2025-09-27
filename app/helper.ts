@@ -4,4 +4,6 @@ const getDayOrNight= (): "day" | "night" => {
     const hour = new Date().getHours();
     return hour >= DAY_CUTOFF_HOUR && hour < NIGHT_CUTOFF_HOUR ? "day" : "night";
 }
-export { getDayOrNight };
+const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
+export { delay, getDayOrNight };
+
