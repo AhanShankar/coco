@@ -1,15 +1,15 @@
 import * as Font from 'expo-font';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
-import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { RFValue } from "react-native-responsive-fontsize";
 import Humidity from "../assets/icons/Humidity";
 import Wind from "../assets/icons/Wind";
 import getLocation from './location';
 import getWeatherData, { CurrentParam, DailyParam, getWeatherIcon, WeatherData } from './weather';
 
 const BACKGROUND_COLOR = '#FAFDF3';
-const ICON_HEIGHT = hp('6%');
-const ICON_WIDTH = hp('6%');
+const ICON_HEIGHT = RFValue(25);
+const ICON_WIDTH = RFValue(25);
 
 export default function WeatherApp() {
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
@@ -103,7 +103,6 @@ export default function WeatherApp() {
               {weatherData.temperature}°
             </Text>
           </View>
-
           <View style={styles.infoRow}>
 
             <View style={styles.infoItem}>
@@ -144,8 +143,7 @@ const styles = StyleSheet.create({
   contentContainer: {
     width: '100%',
     height: '100%',
-    padding: '2%',
-    paddingLeft: '4%',
+    paddingHorizontal: '1%',
     gap: '5%',
     // borderWidth: 1,
   },
@@ -155,11 +153,11 @@ const styles = StyleSheet.create({
     borderColor: 'black',
   },
   temperature: {
-    fontSize: hp('50%'),
+    fontSize: RFValue(220),
     fontWeight: '500',
     fontFamily: 'Monoton',
     color: '#000',
-    letterSpacing: wp('2%'),
+    letterSpacing: RFValue(10),
   },
   separator: {
     width: '100%',
@@ -171,7 +169,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    height: '25%',
+    height: '20%',
     minWidth: '100%',
     // borderWidth: 1,
   },
@@ -185,15 +183,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     minWidth: '30%',
-    gap: wp('2%'),
+    gap: '10%',
     // borderWidth: 1,
   },
 
   infoText: {
-    fontSize: hp('6%'),
+    fontSize: RFValue(20),
     color: '#4b5563',
-    letterSpacing: 10,
-    fontWeight: '600',
+    letterSpacing: RFValue(5),
+    fontWeight: '300',
   },
   loadingText: {
     fontSize: 20,
