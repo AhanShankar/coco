@@ -1,9 +1,9 @@
 import Moon from '@/assets/icons/Moon';
-import weatherCodeMap from "../app/weather-code-map.json" with { type: "json" };
 import Cloud from "../assets/icons/Cloud";
 import Rain from "../assets/icons/Rain";
 import Sun from "../assets/icons/Sun";
 import { getDayOrNight } from './helper';
+import weatherCodeMap from "./weather-code-map.json" with { type: "json" };
 
 const BASE_URL = 'https://api.open-meteo.com/';
 const API_ENDPOINT = 'v1/forecast';
