@@ -2,10 +2,10 @@ import * as Font from 'expo-font';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import Humidity from "../assets/icons/Humidity";
-import Wind from "../assets/icons/Wind";
-import getLocation from './location';
-import getWeatherData, { CurrentParam, DailyParam, getWeatherIcon, WeatherData } from './weather';
+import getLocation from '../../app/location';
+import getWeatherData, { CurrentParam, DailyParam, getWeatherIcon, WeatherData } from '../../app/weather';
+import Humidity from "../../assets/icons/Humidity";
+import Wind from "../../assets/icons/Wind";
 
 const BACKGROUND_COLOR = '#FAFDF3';
 const ICON_HEIGHT = hp('6%');
