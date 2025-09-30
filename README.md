@@ -1,6 +1,10 @@
 # Smart home display
 Display the temperature, along with other things on a sleek UI. Switch to a live camera feed, on button press.
 
+
+<img width="2553" height="1557" alt="Screenshot 2025-09-25 132502" src="https://github.com/user-attachments/assets/a085b462-1a1a-46bc-b851-4ddb0d36e7dc" />
+
+
 # How to contribute
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
