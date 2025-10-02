@@ -18,7 +18,7 @@ export default function WeatherApp() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [fontLoaded, fontError] = Font.useFonts({
-    'Monoton': require('../assets/fonts/Monoton-Regular.ttf'),
+    'Monoton': require('../../assets/fonts/Monoton-Regular.ttf'),
   });
 
   useEffect(() => {
