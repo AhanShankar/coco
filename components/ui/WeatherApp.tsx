@@ -1,4 +1,5 @@
 import * as Font from 'expo-font';
+import { activateKeepAwakeAsync, deactivateKeepAwake } from 'expo-keep-awake';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
@@ -6,6 +7,7 @@ import Humidity from "../../assets/icons/Humidity";
 import Wind from "../../assets/icons/Wind";
 import getLocation from '../../utils/location';
 import getWeatherData, { CurrentParam, DailyParam, getWeatherIcon, WeatherData } from '../../utils/weather';
+
 
 const BACKGROUND_COLOR = '#FAFDF3';
 const ICON_HEIGHT = hp('6%');
@@ -20,6 +22,7 @@ export default function WeatherApp() {
   });
 
   useEffect(() => {
+    activateKeepAwakeAsync();
     let intervalId: NodeJS.Timeout | number;
     const fetchWeather = async () => {
       try {
@@ -57,6 +60,7 @@ export default function WeatherApp() {
     intervalId = setInterval(fetchWeather, 5 * 60 * 1000); // 5 minutes
     return () => {
       if (intervalId) clearInterval(intervalId);
+      deactivateKeepAwake();
     };
   }, []);
   if (loading) {
