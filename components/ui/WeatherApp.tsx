@@ -59,24 +59,6 @@ export default function WeatherApp() {
       if (intervalId) clearInterval(intervalId);
     };
   }, []);
-  // useEffect(() => {
-  //   if (Platform.OS === 'android') {
-  //     const setImmersive = async () => {
-  //       await NavigationBar.setBehaviorAsync('overlay-swipe');
-  //       await NavigationBar.setVisibilityAsync('hidden');
-  //     };
-  //     setImmersive();
-  //     const subscription = NavigationBar.addVisibilityListener(({ visibility }) => {
-  //       if (visibility === 'visible') {
-  //         setImmersive();
-  //       }
-  //     });
-
-  //     return () => {
-  //       subscription.remove();
-  //     };
-  //   }
-  // }, []);
   if (loading) {
     return (
       <View style={styles.container}>
