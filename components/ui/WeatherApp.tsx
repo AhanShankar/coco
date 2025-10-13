@@ -1,13 +1,15 @@
 import * as Font from 'expo-font';
+import { activateKeepAwakeAsync, deactivateKeepAwake } from 'expo-keep-awake';
 import * as NavigationBar from 'expo-navigation-bar';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, Platform, StyleSheet, Text, View } from 'react-native';
 import { RFValue } from "react-native-responsive-fontsize";
-import Humidity from "../assets/icons/Humidity";
-import Wind from "../assets/icons/Wind";
-import { delay } from './helper';
-import getLocation from './location';
-import getWeatherData, { CurrentParam, DailyParam, getWeatherIcon, WeatherData } from './weather';
+import Humidity from "../../assets/icons/Humidity";
+import Wind from "../../assets/icons/Wind";
+import { delay } from '../../utils/helper';
+import getLocation from '../../utils/location';
+import getWeatherData, { CurrentParam, DailyParam, getWeatherIcon, WeatherData } from '../../utils/weather';
+
 
 const BACKGROUND_COLOR = '#FAFDF3';
 const ICON_HEIGHT = RFValue(25);
@@ -19,10 +21,11 @@ export default function WeatherApp() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [fontLoaded, fontError] = Font.useFonts({
-    'Monoton': require('../assets/fonts/Monoton-Regular.ttf'),
+    'Monoton': require('../../assets/fonts/Monoton-Regular.ttf'),
   });
 
   useEffect(() => {
+    activateKeepAwakeAsync();
     let intervalId: NodeJS.Timeout | number;
     const fetchWeather = async () => {
       try {
@@ -60,6 +63,7 @@ export default function WeatherApp() {
     intervalId = setInterval(fetchWeather, 5 * 60 * 1000); // 5 minutes
     return () => {
       if (intervalId) clearInterval(intervalId);
+      deactivateKeepAwake();
     };
   }, []);
   useEffect(() => {

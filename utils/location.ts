@@ -1,7 +1,10 @@
 import * as Location from 'expo-location';
 
 const LOCATION_TIMEOUT = 5 * 1000; // 5 seconds
-***REMOVED***
+const FALLBACK_LOCATION = {
+    latitude: parseFloat(process.env.EXPO_PUBLIC_FALLBACK_LATITUDE!),
+    longitude: parseFloat(process.env.EXPO_PUBLIC_FALLBACK_LONGITUDE!)
+}
 
 class LocationTimeoutError extends Error {
     constructor(message: string) {

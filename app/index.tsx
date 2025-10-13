@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, View } from "react-native";
-import CameraFeed from "./CameraFeed";
-import WeatherApp from "./WeatherApp";
+import CameraFeed from "../components/ui/CameraFeed";
+import WeatherApp from "../components/ui/WeatherApp";
 
 export default function Home() {
   const [showAlt, setShowAlt] = useState(false);
