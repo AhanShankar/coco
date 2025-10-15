@@ -107,7 +107,7 @@ export default function WeatherApp() {
         <View style={styles.contentContainer}>
           <View style={styles.tempContainer}>
             <Text style={styles.temperature}>
-              {weatherData.temperature}°
+              {weatherData.temperature.toFixed(1)}°
             </Text>
           </View>
           <View style={styles.infoRow}>
