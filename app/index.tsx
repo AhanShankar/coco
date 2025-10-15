@@ -3,14 +3,14 @@ import React, { useEffect, useRef, useState } from "react";
 import { View } from "react-native";
 import CameraFeed from "../components/ui/CameraFeed";
 import WeatherApp from "../components/ui/WeatherApp";
-
+const CAMERA_FEED_TIMER = 5 * 1000
 export default function Home() {
   const [showAlt, setCameraFeed] = useState(false);
   const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const resetHideTimer = () => {
     if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
-    hideTimerRef.current = setTimeout(() => setCameraFeed(false), 2000);
+    hideTimerRef.current = setTimeout(() => setCameraFeed(false), CAMERA_FEED_TIMER);
   };
   useEffect(() => {
     const server = createUDPServer((msg: Buffer) => {
