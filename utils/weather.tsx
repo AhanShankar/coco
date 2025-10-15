@@ -40,7 +40,17 @@ export interface WeatherOptions {
     daily?: DailyParam[];
     timezone?: string;
 }
-
+interface weatherResponse {
+    current: {
+        temperature_2m: number;
+        weather_code: number;
+        relative_humidity_2m: number;
+        wind_speed_10m: number;
+    },
+    daily: {
+        precipitation_probability_max: number[];
+    }
+}
 function getCachedWeather() {
     if (!weatherCache) return null;
     const now = Date.now();
@@ -67,11 +77,10 @@ export default async function getWeatherData(options: WeatherOptions): Promise<W
 
     const url = `${BASE_URL}${API_ENDPOINT}?latitude=${latitude}&longitude=${longitude}&current=${currentStr}&daily=${dailyStr}&timezone=${timezone}`;
     const response = await fetch(url);
-    const data = await response.json();
+    const data: weatherResponse = await response.json();
     const cachedWeather = getCachedWeather();
 
-    if (cachedWeather)
-    {
+    if (cachedWeather) {
         console.log("Using cached weather data");
         return cachedWeather;
     }
