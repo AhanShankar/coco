@@ -5,16 +5,16 @@ import CameraFeed from "../components/ui/CameraFeed";
 import WeatherApp from "../components/ui/WeatherApp";
 
 export default function Home() {
-  const [showAlt, setShowAlt] = useState(false);
+  const [showAlt, setCameraFeed] = useState(false);
   const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const resetHideTimer = () => {
     if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
-    hideTimerRef.current = setTimeout(() => setShowAlt(false), 2000);
+    hideTimerRef.current = setTimeout(() => setCameraFeed(false), 2000);
   };
   useEffect(() => {
     const server = createUDPServer((msg: Buffer) => {
-      setShowAlt(true);
+      setCameraFeed(true);
       resetHideTimer();
     });
     return () => {
