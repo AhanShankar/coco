@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
     borderColor: 'black',
   },
   temperature: {
-    fontSize: RFValue(200),
+    fontSize: RFValue(210),
     fontWeight: '500',
     fontFamily: 'Monoton',
     color: '#000',
