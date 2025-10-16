@@ -19,17 +19,21 @@ const NAVBAR_VISIBLE_TIME = 1000; // 1 second
 export default function WeatherApp() {
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [hasLoaded, setHasLoaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [fontLoaded, fontError] = Font.useFonts({
     'Monoton': require('../../assets/fonts/Monoton-Regular.ttf'),
   });
+
+  useEffect(() => { setHasLoaded(true) }, [])
 
   useEffect(() => {
     activateKeepAwakeAsync();
     let intervalId: NodeJS.Timeout | number;
     const fetchWeather = async () => {
       try {
-        setLoading(true);
+        if (!hasLoaded)
+          setLoading(true);
         const location = await getLocation();
         const { latitude, longitude } = location.coords;
         try {
