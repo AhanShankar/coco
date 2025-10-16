@@ -69,21 +69,21 @@ export default async function getWeatherData(options: WeatherOptions): Promise<W
     } = options;
 
     console.log("Fetching weather data for:", options);
-    let currentStr, dailyStr;
-    if (current)
-        currentStr = current.join(',');
-    if (daily)
-        dailyStr = daily.join(',');
-
-    const url = `${BASE_URL}${API_ENDPOINT}?latitude=${latitude}&longitude=${longitude}&current=${currentStr}&daily=${dailyStr}&timezone=${timezone}`;
-    const response = await fetch(url);
-    const data: weatherResponse = await response.json();
     const cachedWeather = getCachedWeather();
 
     if (cachedWeather) {
         console.log("Using cached weather data");
         return cachedWeather;
     }
+
+    let currentStr, dailyStr;
+    if (current)
+        currentStr = current.join(',');
+    if (daily)
+        dailyStr = daily.join(',');
+    const url = `${BASE_URL}${API_ENDPOINT}?latitude=${latitude}&longitude=${longitude}&current=${currentStr}&daily=${dailyStr}&timezone=${timezone}`;
+    const response = await fetch(url);
+    const data: weatherResponse = await response.json();
 
     const weather: WeatherData = {
         temperature: data.current.temperature_2m,
