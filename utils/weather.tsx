@@ -51,7 +51,7 @@ interface weatherResponse {
         precipitation_probability_max: number[];
     }
 }
-function getCachedWeather() {
+export function getCachedWeather(): WeatherData | null {
     if (!weatherCache) return null;
     const now = Date.now();
     if (now - weatherCache.timestamp > CACHE_TTL)
