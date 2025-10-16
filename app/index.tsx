@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { View } from "react-native";
 import CameraFeed from "../components/ui/CameraFeed";
 import WeatherApp from "../components/ui/WeatherApp";
-const CAMERA_FEED_TIMER = 5 * 1000
+const CAMERA_FEED_TIMER = 30 * 1000
 export default function Home() {
   const [showAlt, setCameraFeed] = useState(false);
   const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
