@@ -1,5 +1,5 @@
 # Smart home display
-Display the temperature, along with other things on a sleek UI. Switch to a live camera feed, on button press.
+Display the temperature, along with other things on a sleek UI. Switch to a live camera feed on motion detection
 
 
 <img width="2553" height="1557" alt="Screenshot 2025-09-25 132502" src="https://github.com/user-attachments/assets/a085b462-1a1a-46bc-b851-4ddb0d36e7dc" />
