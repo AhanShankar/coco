@@ -1,5 +1,4 @@
 import * as Font from 'expo-font';
-import { activateKeepAwakeAsync, deactivateKeepAwake } from 'expo-keep-awake';
 import * as NavigationBar from 'expo-navigation-bar';
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, Platform, StyleSheet, Text, View } from 'react-native';
@@ -28,7 +27,6 @@ export default function WeatherApp() {
   useEffect(() => { setHasLoaded(true) }, [])
 
   useEffect(() => {
-    activateKeepAwakeAsync();
     let intervalId: NodeJS.Timeout | number;
     const fetchWeather = async () => {
       try {
@@ -67,7 +65,6 @@ export default function WeatherApp() {
     intervalId = setInterval(fetchWeather, 5 * 60 * 1000); // 5 minutes
     return () => {
       if (intervalId) clearInterval(intervalId);
-      deactivateKeepAwake();
     };
   }, []);
   useEffect(() => {

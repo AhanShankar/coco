@@ -1,4 +1,5 @@
 import createUDPServer from "@/utils/udp";
+import { activateKeepAwakeAsync, deactivateKeepAwake } from 'expo-keep-awake';
 import React, { useEffect, useRef, useState } from "react";
 import { View } from "react-native";
 import CameraFeed from "../components/ui/CameraFeed";
@@ -13,6 +14,7 @@ export default function Home() {
     hideTimerRef.current = setTimeout(() => setCameraFeed(false), CAMERA_FEED_TIMER);
   };
   useEffect(() => {
+    activateKeepAwakeAsync();
     const server = createUDPServer((msg: Buffer) => {
       setCameraFeed(true);
       resetHideTimer();
@@ -21,6 +23,7 @@ export default function Home() {
       console.log("Closing UDP server");
       server.close();
       if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+      deactivateKeepAwake();
     };
   }, []);
   
